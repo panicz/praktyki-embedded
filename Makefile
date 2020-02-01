@@ -1,13 +1,21 @@
+LIBS = -pthread
+SDL_LIBS = -lSDL2main -lSDL2
 HOST_OS =  $(shell uname -o)
+CC = gcc
+#mingw-w64-x86_64-gcc
+
 
 ifeq ($(HOST_OS), Msys)
-	LIBS = -mwindows -lws2_32 -lmingw32 -DMINGW
+	LIBS += -mwindows -lws2_32 -DMINGW -lmingw32
 endif
 
-all: tcpclient
+all: tcpclient screen
 
 tcpclient: cl.c
-	gcc $(CFLAGS) $< -o $@ $(LIBS)
+	$(CC) $(CFLAGS) $< -o $@ $(LIBS)
+
+screen: screen.c
+	$(CC) $(CFLAGS) -DTARGET=SIMULATOR $< -o $@ $(LIBS) $(SDL_LIBS)
 
 clean:
-	rm tcpclient
+	rm tcpclient screen

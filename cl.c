@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <ctype.h>
-#include <string.h>
 
 #ifdef MINGW
 
@@ -23,6 +17,13 @@
 #include <arpa/inet.h>
 
 #endif // !MINGW
+
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <string.h>
 
 int main(int argc, const char *argv[]) {
 
