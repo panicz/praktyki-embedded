@@ -2,9 +2,7 @@
 ;; https://github.com/panicz/praktyki-embedded
 
 (require racket/gui/base)
-(require racket/tcp)
 (require "grand-syntax.rkt")
-(require "ground-scheme.rkt")
 (require "tcp-server.rkt")
 
 (define simulator-window
@@ -23,5 +21,7 @@
 
 (tcp-server
  12345
- ("temperature" (send temperature get-value))
- (_ 0))
+ (lambda (message)
+   (match message
+     ("temperature" (send temperature get-value))
+     (_ 0))))

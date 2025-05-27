@@ -1,8 +1,6 @@
 #lang racket
 
-(require racket/gui/base)
 (require racket/tcp)
-(require racket/match)
 (require "grand-syntax.rkt")
 (require "ground-scheme.rkt")
 (provide tcp-server tcp-thread tcp-send)
@@ -23,7 +21,7 @@
   (writeln message output)
   (flush-output output))
 
-(define-syntax (tcp-server port (command reaction ...) ...)
+(define (tcp-server port handler)
   (let ((server (tcp-listen port)))
     (thread
      (lambda ()
@@ -35,9 +33,6 @@
            (while #true
                   (let* ((line (read-line input))
                          (message (string-trim line #px"(\\s|\u00)+")))
-                    (tcp-send output
-                              (match message
-                                (command reaction ...)
-                                ...)))))))))))
+                    (tcp-send output (handler message)))))))))))
 
 
